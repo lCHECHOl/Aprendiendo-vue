@@ -10,8 +10,18 @@
 
 <body>
     <div id="app">
-        <h1>hola {{ message }}</h1>
+        <h1 v-if="message.length > 2">Hola <span v-text="message"></span></h1>
+        <h1 v-else>Por favor escribe tu nombre</h1>
         <input type="text" v-model="message">
+
+        <h1>Lista de tareas</h1>
+        <ul>
+            <li v-for="tarea in tareas" >
+                <span v-text="tarea.title"></span>
+                <small v-if="tarea.completed"> - Tarea completada</small>
+                <small v-else> - Tarea incompleta</small>
+            </li>
+        </ul>
     </div>
 
     <!-- development version, includes helpful console warnings -->
@@ -20,7 +30,12 @@
         var app = new Vue({
                 el: '#app',
                 data: {
-                    message: 'CH3CH0!'
+                    message: "",
+                    tareas: [
+                        {title: "Aprender PHP", completed: true},
+                        {title: "Aprender laravel", completed: true},
+                        {title: "Aprender vue", completed: false}
+                    ]
                 }
             })
     </script>
