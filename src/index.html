@@ -7,42 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/app.css">
+
 
     <!-- Place your kit's code here -->
     <script src="https://kit.fontawesome.com/f9cfe8050d.js"></script>
 
     <title>Document</title>
-
-    <style>
-        .fa-check-square, .fa-square{
-            cursor: pointer;
-        }
-        
-    </style>
 </head>
 
 <body>
     <div class="container">
         <div id="app">
-            <h1 v-if="message.length > 2">Hola <span v-text="message"></span></h1>
-            <h1 v-else>Por favor escribe tu nombre</h1>
-            <input type="text" v-model="message">
-            <button @click="reverseMessage">Reverse</button>
-
-            <h1>Lista de tareas</h1>
-                <h4 v-if="completedTasks">Tareas completas: <span v-text="completedTasks"></span></h4>
-                <h4 v-if="inCompletedTasks">Tareas incompletas: <span v-text="inCompletedTasks"></span></h4>
-            <ol>
-                <li v-for="task in tasks" >
-                    <span v-text="task.title"></span>                    
-                    <span @click="completeTask(task)"><i :class="taskClasses(task)"></i></span>                    
-                </li>
-                <li class="form-inline">
-                    <input v-model="newTask" type="text" class="form-control">
-                    <button @keyup.enter="addTask" @click="addTask" class="btn btn-primary"><i class="fa fa-plus"></i></button>
-                </li>
-            </ol>
+            <tasks></tasks>
         </div>
     </div>
 
@@ -60,52 +39,7 @@
 
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script>
-        var app = new Vue({
-                el: '#app',
-                data: {
-                    message: "",
-                    newTask: "",
-                    tasks: [
-                        {title: "Aprender PHP", completed: true},
-                        {title: "Aprender laravel", completed: true},
-                        {title: "Aprender vue", completed: false}
-                    ]
-                },
-                methods: {
-                    reverseMessage: function () {
-                        this.message = this.message.split('').reverse().join('')
-                    },
-                    addTask: function () {
-                        if(this.newTask.length <= 0) return alert("La tarea no puede estar vacía")
-
-                        this.tasks.push({
-                            title: this.newTask,
-                            completed: false
-                        });
-                        this.newTask = "";
-                    },
-                    completeTask: function (task) {
-                        return task.completed = !task.completed;
-                    },
-                    taskClasses: function (task) {
-                        return ['far', task.completed ? 'fa-check-square' : 'fa-square'];
-                    }
-                },
-                computed: {
-                    completedTasks: function () {
-                        return this.tasks.filter(function (task) {
-                            return task.completed;
-                        }).length
-                    },
-                    inCompletedTasks: function () {
-                        return this.tasks.filter(function (task) {
-                            return !task.completed;
-                        }).length
-                    },
-                }
-            })
-    </script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
