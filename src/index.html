@@ -5,24 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Place your kit's code here -->
+    <script src="https://kit.fontawesome.com/f9cfe8050d.js"></script>
+
     <title>Document</title>
+
+    <style>
+        .fa-check-square, .fa-square{
+            cursor: pointer;
+        }
+        
+    </style>
 </head>
 
 <body>
-    <div id="app">
-        <h1 v-if="message.length > 2">Hola <span v-text="message"></span></h1>
-        <h1 v-else>Por favor escribe tu nombre</h1>
-        <input type="text" v-model="message">
+    <div class="container">
+        <div id="app">
+            <h1 v-if="message.length > 2">Hola <span v-text="message"></span></h1>
+            <h1 v-else>Por favor escribe tu nombre</h1>
+            <input type="text" v-model="message">
+            <button @click="reverseMessage">Reverse</button>
 
-        <h1>Lista de tareas</h1>
-        <ul>
-            <li v-for="tarea in tareas" >
-                <span v-text="tarea.title"></span>
-                <small v-if="tarea.completed"> - Tarea completada</small>
-                <small v-else> - Tarea incompleta</small>
-            </li>
-        </ul>
+            <h1>Lista de tareas</h1>
+            <ul>
+                <li v-for="task in tasks" >
+                    <span v-text="task.title"></span>                    
+                    <span @click="task.completed = false" v-if="task.completed"><i class="far fa-check-square"></i></span>
+                    <span @click="task.completed = true" v-else><i class="far fa-square"></i></span>                    
+                </li>
+                <li class="form-inline">
+                    <input v-model="newTask" type="text" class="form-control">
+                    <button v-on:keyup.enter="addTask" @click="addTask" class="btn btn-primary">+</button>
+                </li>
+            </ul>
+        </div>
     </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -31,11 +64,26 @@
                 el: '#app',
                 data: {
                     message: "",
-                    tareas: [
+                    newTask: "",
+                    tasks: [
                         {title: "Aprender PHP", completed: true},
                         {title: "Aprender laravel", completed: true},
                         {title: "Aprender vue", completed: false}
                     ]
+                },
+                methods: {
+                    reverseMessage: function () {
+                        this.message = this.message.split('').reverse().join('')
+                    },
+                    addTask: function () {
+                        if(this.newTask.length <= 0) return alert("La tarea no puede estar vacía")
+
+                        this.tasks.push({
+                            title: this.newTask,
+                            completed: false
+                        });
+                        this.newTask = "";
+                    }
                 }
             })
     </script>
