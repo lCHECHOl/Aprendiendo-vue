@@ -1,27 +1,23 @@
 Vue.component('tasks', {    
     template:
         `
-            <div>
-                <h1 v-if="message.length > 2">Hola <span v-text="message"></span></h1>
-                <h1 v-else>Por favor escribe tu nombre</h1>
-                <input type="text" v-model="message">
-                <button @click="reverseMessage">Reverse</button>
-
-                <h1>Lista de tareas</h1>
-                <h4 v-if="completed">Tareas completas: <span v-text="completed"></span></h4>
-                <h4 v-if="inCompleted">Tareas incompletas: <span v-text="inCompleted"></span></h4>
-                <ol>
-                    <li is="task" v-for="task in tasks" :task="task"></li>
-                    <li class="form-inline">
-                        <input v-model="newTask" type="text" class="form-control">
-                        <button @click="add" class="btn btn-primary"><i class="fa fa-plus"></i></button>
-                    </li>
-                </ol>
-            </div>
+            <section class="todoapp">                                
+                <header class="header">
+                    <h1>Tareas</h1>
+                    <input v-on:keyup.13="add" v-model="newTask" type="text" class="new-todo">
+                </header>
+                <section class="todo-list">
+                    <ul>
+                        <li class="todo" is="task" v-for="task in tasks" :task="task"></li>
+                    </ul>
+                </section>
+                <footer class="footer">
+                    <span class="todo-count">Completas: {{ completed }} - Incompletas: {{ inCompleted }}</span>
+                </footer>                                
+            </section>
         `,
     data: function () {
-        return {
-            message: "",
+        return {            
             newTask: "",
             tasks: [
                 { title: "Aprender PHP", completed: true },
@@ -30,10 +26,7 @@ Vue.component('tasks', {
             ]
         }
     },
-    methods: {
-        reverseMessage: function () {
-            this.message = this.message.split('').reverse().join('')
-        },
+    methods: {        
         add: function () {
             if (this.newTask.length <= 0) return alert("La tarea no puede estar vacía")
 
@@ -62,21 +55,17 @@ Vue.component('tasks', {
 Vue.component('task', {
     props: ['task'],
     template:
-        `
-            <li>
-                <span v-text="task.title"></span>
-                <span @click="complete()"><i :class="classes"></i></span>
+        `            
+            <li :class="classes">
+                <div class="view">
+                    <input class="toggle" type="checkbox" v-model="task.completed"/>
+                    <label v-text="task.title"></label>
+                </div>                    
             </li>
         `,
-    methods: {
-        complete: function () {
-            return this.task.completed = !this.task.completed;
-        },
-        
-    },
     computed: {
         classes: function () {
-            return ['far', this.task.completed ? 'fa-check-square' : 'fa-square'];
+            return {completed: this.task.completed};
         }
     }      
 });
